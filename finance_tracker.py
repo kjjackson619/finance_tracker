@@ -33,6 +33,8 @@ class FinanceTracker:
             print(f"Account '{account_name}' does not exist.")
             return
         else:
+            transaction_type = transaction_type.lower()
+            
             if transaction_type not in ["income", "expense"]:
                 print("Transaction type must be 'income' or 'expense'.")
                 return
@@ -100,7 +102,7 @@ def main():
         elif choice == "2":
             account_name = input("Enter the account name: ")
             amount = float(input("Enter the amount: "))
-            transaction_type = input("Enter the transaction type (income/expense): ")
+            transaction_type = input("Enter the transaction type (income/expense): ").lower()
             description = input("Enter the description: ")
             tracker.add_transaction(account_name, amount, transaction_type, description)
 
