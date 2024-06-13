@@ -1,12 +1,31 @@
+import json
+import os
+
 class FinanceTracker:
-    def __init__(self):
+    def __init__(self, data_file="finance_data.json"):
         self.accounts = {}
+        self.data_file = data_file
+        self.load_data()
+
+    def save_data(self):
+        with open(self.data_file, "w") as f:
+            json.dump(self.accounts, f)
+        print("Data saved successfully.")
+
+    def load_data(self):
+        if os.path.exists(self.data_file):
+            with open(self.data_file, "r") as f:
+                self.accounts = json.load(f)
+            print("Data loaded successfully.")
+        else:
+            print("No existing data found. Starting fresh.")
     
     def add_account(self, account_name):
         if account_name in self.accounts:
             print(f"Account '{account_name}' already exists.")
         else:
             self.accounts[account_name] = {"balance": 0.0, "transactions": []}
+            self.save_data()
             print(f"Account '{account_name}' created successfully.")
     
     def add_transaction(self, account_name, amount, transaction_type, description=""):
@@ -16,6 +35,7 @@ class FinanceTracker:
             if transaction_type not in ["income", "expense"]:
                 print("Transaction type must be 'income' or 'expense'.")
                 return
+            
             if transaction_type == "expense":
                 amount -= amount 
             
@@ -25,6 +45,7 @@ class FinanceTracker:
                 "type": transaction_type,
                 "description": description
             })
+            self.save_data()
             print(f"Transaction added to '{account_name}'.")
 
     def get_balance(self, account_name):
