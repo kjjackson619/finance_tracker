@@ -53,3 +53,57 @@ class FinanceTracker:
         for account_name in self.accounts:
             self.display_account_summary(account_name)
             print("")
+
+def main():
+    tracker = FinanceTracker()
+
+    while True:
+        print("\nFinance Tracker Menu")
+        print("1. Add Account")
+        print("2. Add Transaction")
+        print("3. View Account Balance")
+        print("4. View All Balances")
+        print("5. View Account Summary")
+        print("6. View All Summaries")
+        print("7. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            account_name = input("Enter the account name: ")
+            tracker.add_account(account_name)
+        
+        elif choice == "2":
+            account_name = input("Enter the account name: ")
+            amount = float(input("Enter the amount: "))
+            transaction_type = input("Enter the transaction type (income/expense): ")
+            description = input("Enter the description: ")
+            tracker.add_transaction(account_name, amount, transaction_type, description)
+
+        elif choice == "3":
+            account_name = input("Enter the account name: ")
+            balance = tracker.get_balance(account_name)
+            if balance is not None:
+                print(f"Balance for account '{account_name}': {balance}")
+
+        elif choice == "4":
+            total_balance = tracker.get_all_balances()
+            print(f"Total balance across all accounts: {total_balance}")
+
+        elif choice == "5":
+            account_name = input("Enter the account name: ")
+            tracker.display_account_summary(account_name)
+
+        elif choice == "6":
+            tracker.display_all_summaries()
+        
+        elif choice == "7":
+            print("Exiting Finance Tracker.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
+
