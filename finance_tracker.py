@@ -31,13 +31,14 @@ class FinanceTracker:
     def add_transaction(self, account_name, amount, transaction_type, description=""):
         if account_name not in self.accounts:
             print(f"Account '{account_name}' does not exist.")
+            return
         else:
             if transaction_type not in ["income", "expense"]:
                 print("Transaction type must be 'income' or 'expense'.")
                 return
             
             if transaction_type == "expense":
-                amount -= amount 
+                amount = -amount 
             
             self.accounts[account_name]["balance"] += amount
             self.accounts[account_name]["transactions"].append({
@@ -46,17 +47,19 @@ class FinanceTracker:
                 "description": description
             })
             self.save_data()
-            print(f"Transaction added to '{account_name}'.")
+            print(f"Transaction added to '{account_name}: {transaction_type} of {amount} for '{description}'.")
 
     def get_balance(self, account_name):
         if account_name not in self.accounts:
             print(f"Account '{account_name}' does not exist.")
+            return None
         else:
             return self.accounts[account_name]["balance"]
         
     def get_all_balances(self):
         total_balance = 0.0
         for account_name, details in self.accounts.items():
+            print(f"Balance for account '{account_name}': {details['balance']}")
             total_balance += details["balance"]
         return total_balance
     
